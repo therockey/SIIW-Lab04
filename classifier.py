@@ -11,6 +11,7 @@ from sklearn.naive_bayes import GaussianNB, BernoulliNB, MultinomialNB
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score
 
+pd.options.display.max_columns = 22
 
 def ratio(x: str) -> float:
     try:
@@ -105,6 +106,8 @@ def get_model(args: argparse.Namespace) -> sklearn.base.ClassifierMixin:
             max_features=args.max_features
         )
 
+    raise ValueError(f"Unknown model type: {args.model} with subtype {args.type if hasattr(args, 'type') else ''}")
+
 
 def load_data(filepath: str) -> pd.DataFrame:
     df = pd.read_csv(filepath)
@@ -197,7 +200,7 @@ def main() -> None:
 
             # Korelacje
             print("\nCorrelation matrix (first 5 rows):")
-            print(data.corr().round(2).head())
+            print(data.corr().round(2))
 
             # Wariancja cech
             print("\nFeature variances:")
