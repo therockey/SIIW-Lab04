@@ -1,3 +1,4 @@
+import math
 import os
 import pickle
 import argparse
@@ -215,6 +216,12 @@ def main() -> None:
 
             print("Preprocessing data...")
             X_train, X_test, y_train, y_test = preprocess_data(data, args.ratio, args.scaler)
+
+            if args.model == "NB" and args.type == "Multinomial":
+                min_val = min(X_train.min(), X_test.min())
+                if min_val < 0:
+                    X_train -= min_val
+                    X_test -= min_val
 
             if X_train.size == 0 and y_train.size == 0:
                 raise ValueError("No training data available after preprocessing. Try changing the split ratio.")
